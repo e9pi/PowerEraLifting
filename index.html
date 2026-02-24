@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PowerEra 84</title>
+    
+    <!-- Web App Manifest settings -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PowerEra 84">
+    
+    <!-- Icons -->
+    <link rel="icon" href="app-icon.png">
+    <link rel="apple-touch-icon" href="app-icon.png">
+
+    <!-- React Libraries -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&family=Orbitron:wght@700;900&family=VT323&display=swap" rel="stylesheet">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        theme: {
+                            bg: 'var(--bg-color)',
+                            card: 'var(--card-bg)',
+                            text: 'var(--text-main)',
+                            dim: 'var(--text-dim)',
+                            accent: 'var(--accent-color)',
+                            border: 'var(--border-color)',
+                        }
+                    },
+                    fontFamily: {
+                        head: ['Orbitron', 'sans-serif'],
+                        mono: ['VT323', 'monospace'], 
+                        arabic: ['Tajawal', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* --- RETRO THEME ENGINE --- */
+        :root {
+            /* Neon City (Default) */
+            --bg-color: #050510;
+            --card-bg: #101020;
+            --text-main: #e0e0ff;
+            --text-dim: #6060a0;
+            --accent-color: #f0f;
+            --border-color: #2a2a40;
+            --shadow-color: rgba(255, 0, 255, 0.6);
+        }
+
+        [data-theme='terminal'] { /* Green Mono */
+            --bg-color: #000000;
+            --card-bg: #001100;
+            --text-main: #00ff41;
+            --text-dim: #008f11;
+            --accent-color: #00ff41;
+            --border-color: #003300;
+            --shadow-color: rgba(0, 255, 65, 0.5);
+        }
+
+        [data-theme='synthwave'] { /* Blue/Red */
+            --bg-color: #0a0a1a;
+            --card-bg: #151525;
+            --text-main: #ffffff;
+            --text-dim: #ea4c89;
+            --accent-color: #4285f4; 
+            --border-color: #ea4c89;
+            --shadow-color: rgba(66, 133, 244, 0.6);
+        }
+
+        [data-theme='icenet'] { /* Cyan/Blue */
+            --bg-color: #000810;
+            --card-bg: #001018;
+            --text-main: #d0ffff;
+            --text-dim: #005f73;
+            --accent-color: #00d8ff;
+            --border-color: #003040;
+            --shadow-color: rgba(0, 216, 255, 0.5);
+        }
+
+        [data-theme='blackops'] { /* Black Ops II (Orange/Tactical Black) */
+            --bg-color: #0a0a0a;
+            --card-bg: #141414;
+            --text-main: #e0e0e0;
+            --text-dim: #707070;
+            --accent-color: #ff9000;
+            --border-color: #ff9000;
+            --shadow-color: rgba(255, 144, 0, 0.3);
+        }
+
+        [data-theme='nokia'] { /* Nokia Brick - Dimmed Version */
+            --bg-color: #9cbda7;
+            --card-bg: #8ba895;
+            --text-main: #2b362a;
+            --text-dim: #4a5c4b;
+            --accent-color: #1a211a;
+            --border-color: #3e4d3d;
+            --shadow-color: rgba(67, 82, 61, 0.0);
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: 'Tajawal', sans-serif;
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+
+        /* CRT Effect */
+        .crt::before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0; left: 0; bottom: 0; right: 0;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            z-index: 999;
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            opacity: 0.5;
+        }
+        [data-theme='nokia'] .crt::before { display: none; }
+
+        .glow-text { text-shadow: 0 0 5px var(--shadow-color), 0 0 10px var(--shadow-color); }
+        .box-glow { box-shadow: 0 0 10px var(--shadow-color), inset 0 0 5px var(--shadow-color); }
+        
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        
+        input:focus { outline: none; }
+        
+        /* Auto-complete scrollbar custom */
+        .custom-scroll::-webkit-scrollbar { width: 4px; }
+        .custom-scroll::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 2px; }
+    </style>
+</head>
+<body class="crt h-screen w-screen selection:bg-theme-accent selection:text-theme-bg">
+    <div id="root" class="h-full w-full relative z-10"></div>
+
+    <script type="text/babel">
+        // Added useMemo for efficient calculations
+        const { useState, useEffect, useRef, useMemo } = React;
+
+        // --- ICONS ---
+        const IconMenu = ({size=24}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>;
+        const IconBack = ({size=24}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>;
+        const IconTrash = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>;
+        const IconPlus = ({size=28}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><path d="M12 5v14M5 12h14"/></svg>;
+        const IconShare = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>;
+        const IconDownload = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
+        const IconCopy = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>;
+        const IconNote = ({size=20, filled=false}) => <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
+        const IconArrowUp = ({size=14}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><polyline points="18 15 12 9 6 15"/></svg>;
+        const IconArrowDown = ({size=14}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><polyline points="6 9 12 15 18 9"/></svg>;
+        const IconChevronDown = ({size=20, className}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" className={className}><polyline points="6 9 12 15 18 9"/></svg>;
+
+        // --- THEME DATA ---
+        const THEMES = [
+            { id: 'default', name: 'NEON CITY', color: '#f0f' },
+            { id: 'terminal', name: 'TERMINAL 84', color: '#00ff41' },
+            { id: 'synthwave', name: 'SYNTHWAVE', color: '#4285f4' },
+            { id: 'icenet', name: 'ICE NET', color: '#00d8ff' },
+            { id: 'blackops', name: 'BLACK OPS II', color: '#ff9000' },
+            { id: 'nokia', name: 'BRICK PHONE', color: '#43523d' },
+        ];
+
+        // --- UTILS ---
+        const generateId = () => Math.random().toString(36).substr(2, 9);
+        
+        const encodeSplit = (split) => {
+            const json = JSON.stringify(split);
+            return btoa(unescape(encodeURIComponent(json)));
+        };
+
+        const decodeSplit = (code) => {
+            try {
+                const json = decodeURIComponent(escape(window.atob(code)));
+                return JSON.parse(json);
+            } catch (e) {
+                return null;
+            }
+        };
+
+        // --- COMPONENTS ---
+
+        // 1. Theme Menu
+        const ThemeMenu = ({ current, onChange }) => {
+            const [open, setOpen] = useState(false);
+            return (
+                <div className="absolute top-4 left-4 z-50">
+                    <button onClick={() => setOpen(!open)} className="text-theme-dim hover:text-theme-accent transition-colors p-2 border border-transparent hover:border-theme-dim bg-theme-bg/80 rounded-full shadow-[0_0_10px_var(--shadow-color)]">
+                        <IconMenu />
+                    </button>
+                    {open && (
+                        <>
+                            <div className="fixed inset-0 z-40" onClick={() => setOpen(false)}></div>
+                            <div className="absolute top-full left-0 mt-2 w-48 bg-theme-bg border-2 border-theme-accent shadow-[0_0_15px_var(--shadow-color)] z-50 p-2">
+                                <div className="text-xs text-theme-accent font-mono mb-2 border-b border-theme-dim pb-1 text-center">اختر الثيم</div>
+                                {THEMES.map(t => (
+                                    <button 
+                                        key={t.id}
+                                        onClick={() => { onChange(t.id); setOpen(false); }}
+                                        className={`w-full text-right px-3 py-2 text-sm font-mono mb-1 flex items-center justify-between group
+                                            ${current === t.id ? 'bg-theme-accent text-theme-bg' : 'text-theme-text hover:bg-theme-dim/20'}`}
+                                    >
+                                        <span className="group-hover:translate-x-1 transition-transform">{t.name}</span>
+                                        <div className="w-2 h-2 rounded-full border border-theme-dim" style={{background: t.color}}></div>
+                                    </button>
+                                ))}
+                            </div>
+                        </>
+                    )}
+                </div>
+            );
+        };
+
+        // 2. Share Modal
+        const ShareModal = ({ split, onClose }) => {
+            const code = encodeSplit(split);
+            const [copied, setCopied] = useState(false);
+
+            const handleCopy = () => {
+                navigator.clipboard.writeText(code);
+                setCopied(true);
+                setTimeout(() => setCopied(false), 2000);
+            };
+
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <div className="bg-theme-bg border-2 border-theme-accent p-6 w-full max-w-sm relative box-glow animate-scan">
+                        <button onClick={onClose} className="absolute top-2 right-2 text-theme-dim hover:text-red-500">X</button>
+                        <h3 className="text-xl font-head text-theme-accent mb-2 glow-text">تصدير البيانات</h3>
+                        <p className="text-xs text-theme-dim font-mono mb-4">انسخ الكود وأرسله لصديقك لاستيراد الجدول.</p>
+                        
+                        <div className="bg-black/40 border border-theme-dim p-2 mb-4 overflow-hidden relative">
+                            <div className="text-[10px] text-theme-text font-mono break-all h-20 overflow-y-auto custom-scroll p-1">
+                                {code}
+                            </div>
+                        </div>
+
+                        <button 
+                            onClick={handleCopy}
+                            className={`w-full py-3 border border-theme-accent font-bold font-arabic transition-all flex items-center justify-center gap-2
+                                ${copied ? 'bg-theme-accent text-theme-bg' : 'text-theme-accent hover:bg-theme-accent/10'}`}
+                        >
+                            {copied ? 'تم النسخ!' : <><IconCopy size={18} /> نسخ الكود</>}
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // 3. Import Modal
+        const ImportModal = ({ onImport, onClose }) => {
+            const [code, setCode] = useState('');
+            const [error, setError] = useState(false);
+
+            const handleImport = () => {
+                const split = decodeSplit(code);
+                if (split && split.name && split.days) {
+                    onImport(split);
+                } else {
+                    setError(true);
+                }
+            };
+
+            return (
+                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+                    <div className="bg-theme-bg border-2 border-theme-accent p-6 w-full max-w-sm relative box-glow">
+                        <button onClick={onClose} className="absolute top-2 right-2 text-theme-dim hover:text-red-500">X</button>
+                        <h3 className="text-xl font-head text-theme-accent mb-2 glow-text">استيراد بيانات</h3>
+                        <p className="text-xs text-theme-dim font-mono mb-4">الصق كود الجدول هنا لإضافته لمكتبتك.</p>
+                        
+                        <textarea
+                            value={code}
+                            onChange={(e) => {setCode(e.target.value); setError(false);}}
+                            placeholder="لصق الكود هنا..."
+                            className="w-full bg-black/40 border border-theme-dim text-theme-text font-mono text-xs p-2 h-24 focus:border-theme-accent outline-none mb-2 resize-none"
+                        ></textarea>
+
+                        {error && <p className="text-red-500 text-xs font-bold mb-3 text-center blink">خطأ: الكود غير صالح</p>}
+
+                        <button 
+                            onClick={handleImport}
+                            className="w-full py-3 bg-theme-accent/10 text-theme-accent border border-theme-accent font-bold font-arabic hover:bg-theme-accent hover:text-theme-bg transition-colors flex items-center justify-center gap-2"
+                        >
+                            <IconDownload size={18} /> استيراد الجدول
+                        </button>
+                    </div>
+                </div>
+            );
+        };
+
+        // 4. Exercise Card (With Auto-Complete & Notes)
+        const ExerciseCard = ({ exercise, onChange, onDelete, onMoveUp, onMoveDown, isFirst, isLast, uniqueNames }) => {
+            const [showSuggestions, setShowSuggestions] = useState(false);
+            const [showNotes, setShowNotes] = useState(false);
+            const hasNotes = exercise.notes && exercise.notes.trim().length > 0;
+            
+            const adjustWeight = (delta) => {
+                const current = parseFloat(exercise.weight) || 0;
+                onChange({ ...exercise, weight: Math.max(0, current + delta) });
+            };
+
+            // Auto-complete logic
+            const filteredSuggestions = uniqueNames.filter(n => 
+                n.includes(exercise.name.trim()) && n !== exercise.name.trim()
+            ).slice(0, 5); // Limit to 5 suggestions
+
+            return (
+                <div className="border border-theme-dim bg-theme-bg/40 p-4 mb-4 relative group hover:border-theme-accent transition-colors">
+                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-theme-dim group-hover:border-theme-accent"></div>
+                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-theme-dim group-hover:border-theme-accent"></div>
+
+                    <div className="flex justify-between items-center mb-4 gap-3 relative">
+                         <div className="flex items-center gap-2 shrink-0">
+                             <button onClick={onDelete} className="text-theme-dim hover:text-red-500 p-2 border border-theme-dim/30 rounded active:scale-95">
+                                <IconTrash size={18} />
+                            </button>
+                            
+                            <button 
+                                onClick={() => setShowNotes(!showNotes)} 
+                                className={`p-2 border rounded active:scale-95 transition-colors ${hasNotes || showNotes ? 'border-theme-accent text-theme-accent bg-theme-accent/10' : 'border-theme-dim/30 text-theme-dim hover:text-theme-accent hover:border-theme-accent'}`}
+                                title="ملاحظات التمرين"
+                            >
+                                <IconNote size={18} filled={hasNotes} />
+                            </button>
+                            
+                            <div className="flex flex-col gap-1">
+                                <button 
+                                    onClick={onMoveUp} 
+                                    disabled={isFirst}
+                                    className={`p-0.5 border border-theme-dim/30 rounded ${isFirst ? 'opacity-30 cursor-not-allowed' : 'text-theme-dim hover:text-theme-accent hover:border-theme-accent active:bg-theme-accent/10'}`}
+                                >
+                                    <IconArrowUp size={12} />
+                                </button>
+                                <button 
+                                    onClick={onMoveDown} 
+                                    disabled={isLast}
+                                    className={`p-0.5 border border-theme-dim/30 rounded ${isLast ? 'opacity-30 cursor-not-allowed' : 'text-theme-dim hover:text-theme-accent hover:border-theme-accent active:bg-theme-accent/10'}`}
+                                >
+                                    <IconArrowDown size={12} />
+                                </button>
+                            </div>
+                         </div>
+                        
+                        <div className="flex-1 relative h-full flex items-end">
+                            <input 
+                                value={exercise.name}
+                                onChange={(e) => {
+                                    onChange({...exercise, name: e.target.value});
+                                    setShowSuggestions(true);
+                                }}
+                                onFocus={() => setShowSuggestions(true)}
+                                onBlur={() => setShowSuggestions(false)}
+                                placeholder="اسم التمرين"
+                                className="bg-transparent text-right font-arabic font-bold text-xl text-theme-text placeholder-theme-dim/50 focus:text-theme-accent w-full border-b border-theme-dim/30 focus:border-theme-accent transition-colors pb-1"
+                            />
+                            
+                            {/* Auto-Complete Dropdown */}
+                            {showSuggestions && exercise.name.trim() && filteredSuggestions.length > 0 && (
+                                <div className="absolute top-full right-0 mt-1 w-full bg-theme-bg border border-theme-accent z-50 shadow-[0_0_15px_var(--shadow-color)] max-h-40 overflow-y-auto custom-scroll">
+                                    {filteredSuggestions.map(sug => (
+                                        <div 
+                                            key={sug}
+                                            // onMouseDown is used instead of onClick because it fires before onBlur
+                                            onMouseDown={(e) => {
+                                                e.preventDefault(); 
+                                                onChange({...exercise, name: sug});
+                                                setShowSuggestions(false);
+                                            }}
+                                            className="p-3 border-b border-theme-dim/30 text-theme-text hover:bg-theme-accent hover:text-theme-bg cursor-pointer font-arabic font-bold transition-colors text-right"
+                                        >
+                                            {sug}
+                                        </div>
+                                    ))}
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-12 gap-3">
+                        {/* Weight Control */}
+                        <div className="col-span-12 border border-theme-dim/50 p-2 flex items-center justify-between bg-black/20 relative">
+                            <button onClick={() => adjustWeight(-2.5)} className="px-4 py-2 text-theme-dim hover:text-theme-text font-mono text-xl active:bg-theme-dim/10 transition-colors">-</button>
+                            <div className="flex items-baseline text-theme-accent font-mono text-2xl glow-text">
+                                <input 
+                                    type="number" 
+                                    value={exercise.weight} 
+                                    onChange={(e) => onChange({...exercise, weight: parseFloat(e.target.value)})}
+                                    className="w-24 bg-transparent text-center focus:outline-none"
+                                />
+                                <span className="text-xs ml-1 text-theme-dim">KG</span>
+                            </div>
+                            <button onClick={() => adjustWeight(2.5)} className="px-4 py-2 text-theme-dim hover:text-theme-text font-mono text-xl active:bg-theme-dim/10 transition-colors">+</button>
+                        </div>
+                        
+                        <div className="col-span-6 border border-theme-dim/50 flex flex-col items-center justify-center p-2 bg-black/20">
+                            <span className="text-[10px] text-theme-dim font-mono uppercase mb-1">جلسات</span>
+                            <input type="number" value={exercise.sets} onChange={(e) => onChange({...exercise, sets: e.target.value})} className="w-full bg-transparent text-center text-theme-text font-mono text-xl" />
+                        </div>
+                        <div className="col-span-6 border border-theme-dim/50 flex flex-col items-center justify-center p-2 bg-black/20">
+                            <span className="text-[10px] text-theme-dim font-mono uppercase mb-1">عدات</span>
+                            <input type="number" value={exercise.reps} onChange={(e) => onChange({...exercise, reps: e.target.value})} className="w-full bg-transparent text-center text-theme-text font-mono text-xl" />
+                        </div>
+                    </div>
+
+                    {/* Log Notes Section */}
+                    {showNotes && (
+                        <div className="mt-3 p-1 animate-scan">
+                            <textarea
+                                value={exercise.notes || ''}
+                                onChange={(e) => onChange({...exercise, notes: e.target.value})}
+                                placeholder="> إدخال ملاحظة (مثال: الجهاز معطل، ألم خفيف في الكتف...)"
+                                className="w-full bg-black/60 border-r-2 border-theme-accent text-theme-text placeholder-theme-dim/50 font-mono text-sm p-3 min-h-[60px] focus:outline-none focus:bg-black/80 resize-y"
+                            ></textarea>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // 5. Day Accordion
+        const DayAccordion = ({ day, isExpanded, onToggle, onUpdate, onDeleteDay, uniqueNames }) => {
+            
+            const moveExercise = (index, direction) => {
+                const newExercises = [...day.exercises];
+                const targetIndex = index + direction;
+                
+                if (targetIndex >= 0 && targetIndex < newExercises.length) {
+                    [newExercises[index], newExercises[targetIndex]] = [newExercises[targetIndex], newExercises[index]];
+                    onUpdate({...day, exercises: newExercises});
+                }
+            };
+
+            return (
+                <div className={`border-l-2 transition-all duration-300 mb-6 ${isExpanded ? 'border-theme-accent bg-theme-accent/5' : 'border-theme-dim bg-transparent'}`}>
+                    <div onClick={onToggle} className="p-4 flex justify-between items-center cursor-pointer hover:bg-theme-dim/10">
+                        <div className="flex-1 flex items-center gap-2">
+                            <div className={`transition-transform duration-300 ${isExpanded ? 'rotate-180 text-theme-accent' : 'text-theme-dim'}`}>
+                                <IconChevronDown size={20} />
+                            </div>
+                            <input 
+                                value={day.name}
+                                onClick={(e) => e.stopPropagation()}
+                                onChange={(e) => onUpdate({...day, name: e.target.value})}
+                                className={`bg-transparent w-full font-arabic font-bold text-xl tracking-wide ${isExpanded ? 'text-theme-accent glow-text' : 'text-theme-dim'}`}
+                                placeholder="اسم اليوم"
+                            />
+                        </div>
+                        <div className="text-theme-text font-mono text-sm border border-theme-dim px-2 py-0.5">
+                            {day.exercises.length} <span className="text-theme-dim">تمارين</span>
+                        </div>
+                    </div>
+                    
+                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[10000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+                        <div className="p-4 border-t border-theme-dim/30">
+                            {day.exercises.map((ex, idx) => (
+                                <ExerciseCard 
+                                    key={ex.id} 
+                                    exercise={ex}
+                                    isFirst={idx === 0}
+                                    isLast={idx === day.exercises.length - 1}
+                                    onMoveUp={() => moveExercise(idx, -1)}
+                                    onMoveDown={() => moveExercise(idx, 1)}
+                                    onChange={(u) => onUpdate({...day, exercises: day.exercises.map(e => e.id === u.id ? u : e)})} 
+                                    onDelete={() => onUpdate({...day, exercises: day.exercises.filter(e => e.id !== ex.id)})}
+                                    uniqueNames={uniqueNames}
+                                />
+                            ))}
+                            <div className="flex gap-3 mt-4">
+                                <button 
+                                    onClick={() => onUpdate({...day, exercises: [...day.exercises, {id: Math.random(), name:'', weight:0, sets:0, reps:0, notes:''}]})}
+                                    className="flex-1 py-3 border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg font-arabic font-bold text-sm transition-colors"
+                                >
+                                    + تمرين جديد
+                                </button>
+                                <button 
+                                    onClick={() => { if(confirm('حذف هذا اليوم؟')) onDeleteDay() }}
+                                    className="px-4 border border-theme-dim text-theme-dim hover:text-red-500 hover:border-red-500 transition-colors"
+                                >
+                                    <IconTrash />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // 6. Main List View
+        const MainView = ({ splits, onCreate, onEdit, onDelete, onShare, onImportOpen }) => (
+            <div className="h-full flex flex-col relative">
+                <header className="p-6 border-b-2 border-theme-dim flex items-center justify-start bg-theme-bg/90 backdrop-blur z-20 sticky top-0">
+                    <div className="flex items-center gap-4">
+                        <h2 className="text-2xl font-head font-bold text-theme-text glow-text">
+                            جداولي <span className="text-theme-accent blink">_</span>
+                        </h2>
+                        
+                        <button onClick={onImportOpen} className="text-theme-dim hover:text-theme-accent flex items-center gap-1 font-arabic text-xs border border-theme-dim px-2 py-1 rounded hover:border-theme-accent transition-colors">
+                            <IconDownload size={14} /> استيراد
+                        </button>
+                    </div>
+                </header>
+
+                <div className="flex-1 overflow-y-auto no-scrollbar p-6 pb-24">
+                    {splits.length === 0 ? (
+                        <div className="flex flex-col items-center justify-center h-64 text-theme-dim font-arabic border border-dashed border-theme-dim mt-8">
+                            <p className="mb-2 font-bold text-lg">لا توجد جداول</p>
+                            <p className="text-xs">اضغط الزر بالأسفل للبدء</p>
+                        </div>
+                    ) : (
+                        splits.map(split => (
+                            <div key={split.id} onClick={() => onEdit(split.id)} className="border border-theme-dim p-4 mb-4 hover:border-theme-accent hover:bg-theme-accent/5 cursor-pointer transition-all group relative">
+                                <h3 className="font-arabic font-bold text-xl text-theme-text group-hover:text-theme-accent mb-1">{split.name}</h3>
+                                <div className="h-px w-full bg-gradient-to-r from-theme-accent/50 to-transparent my-2"></div>
+                                <div className="flex justify-between items-end mt-3">
+                                    <span className="text-xs font-mono text-theme-dim">
+                                        أيام: {split.days.length}
+                                    </span>
+                                    <div className="flex gap-3">
+                                        <button onClick={(e) => {e.stopPropagation(); onShare(split)}} className="text-theme-dim hover:text-theme-accent z-10 p-1">
+                                            <IconShare size={18} />
+                                        </button>
+                                        <button onClick={(e) => {e.stopPropagation(); onDelete(split.id)}} className="text-theme-dim hover:text-red-500 z-10 p-1">
+                                            <IconTrash size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        ))
+                    )}
+                </div>
+
+                <button 
+                    onClick={onCreate} 
+                    className="absolute bottom-6 left-6 w-16 h-16 bg-theme-bg border-2 border-theme-accent text-theme-accent rounded-full flex items-center justify-center shadow-[0_0_20px_var(--shadow-color)] hover:bg-theme-accent hover:text-theme-bg active:scale-90 transition-all z-30"
+                >
+                    <IconPlus />
+                </button>
+            </div>
+        );
+
+        // --- APP CONTROLLER ---
+        const App = () => {
+            const [view, setView] = useState('LIST');
+            const [theme, setTheme] = useState(() => localStorage.getItem('retro_theme') || 'default');
+            const [splits, setSplits] = useState(() => JSON.parse(localStorage.getItem('retro_splits') || '[]'));
+            const [activeSplitId, setActiveSplitId] = useState(null);
+            
+            const [sharingSplit, setSharingSplit] = useState(null);
+            const [showImport, setShowImport] = useState(false);
+            
+            const [expandedDays, setExpandedDays] = useState({});
+
+            // 1. حساب جميع أسماء التمارين الفريدة للإكمال التلقائي
+            const uniqueExerciseNames = useMemo(() => {
+                const names = new Set();
+                splits.forEach(s => s.days.forEach(d => d.exercises.forEach(ex => {
+                    const name = ex.name.trim();
+                    if (name) names.add(name);
+                })));
+                return Array.from(names);
+            }, [splits]);
+
+            useEffect(() => {
+                document.body.setAttribute('data-theme', theme);
+                localStorage.setItem('retro_theme', theme);
+            }, [theme]);
+
+            useEffect(() => localStorage.setItem('retro_splits', JSON.stringify(splits)), [splits]);
+
+            const activeSplit = splits.find(s => s.id === activeSplitId);
+
+            const handleImportSplit = (newSplit) => {
+                const importedSplit = {
+                    ...newSplit,
+                    id: generateId(),
+                    name: newSplit.name + ' (مستورد)',
+                    days: newSplit.days.map(d => ({...d, id: generateId(), exercises: d.exercises.map(e => ({...e, id: generateId()}))}))
+                };
+                setSplits([...splits, importedSplit]);
+                setShowImport(false);
+                alert('تم استيراد الجدول بنجاح!');
+            };
+
+            const openEditor = (id) => {
+                setActiveSplitId(id);
+                setView('EDITOR');
+                setExpandedDays({});
+            };
+            
+            const handleCreateSplit = () => {
+                const newId = generateId();
+                const newSplit = {id: newId, name: 'جدول جديد', days:[]};
+                setSplits([...splits, newSplit]);
+                setActiveSplitId(newId);
+                setView('EDITOR');
+                setExpandedDays({});
+            }
+
+            return (
+                <div className="h-full w-full relative">
+                    <ThemeMenu current={theme} onChange={setTheme} />
+                    
+                    {sharingSplit && <ShareModal split={sharingSplit} onClose={() => setSharingSplit(null)} />}
+                    {showImport && <ImportModal onImport={handleImportSplit} onClose={() => setShowImport(false)} />}
+
+                    {view === 'LIST' && (
+                        <MainView 
+                            splits={splits}
+                            onCreate={handleCreateSplit}
+                            onEdit={openEditor}
+                            onDelete={(id) => setSplits(splits.filter(s => s.id !== id))}
+                            onShare={(split) => setSharingSplit(split)}
+                            onImportOpen={() => setShowImport(true)}
+                        />
+                    )}
+
+                    {view === 'EDITOR' && activeSplit && (
+                        <div className="h-full flex flex-col bg-theme-bg">
+                            <div className="p-4 border-b border-theme-dim flex items-center gap-4 bg-theme-bg z-20 sticky top-0">
+                                <button onClick={() => setView('LIST')} className="text-theme-dim hover:text-theme-text rotate-180">
+                                    <IconBack />
+                                </button>
+                                <input 
+                                    value={activeSplit.name}
+                                    onChange={(e) => setSplits(splits.map(s => s.id === activeSplitId ? {...s, name: e.target.value} : s))}
+                                    className="bg-transparent font-arabic font-bold text-2xl text-theme-text w-full focus:text-theme-accent outline-none placeholder-theme-dim"
+                                    placeholder="اسم الجدول"
+                                />
+                            </div>
+                            <div className="flex-1 overflow-y-auto no-scrollbar p-4">
+                                {activeSplit.days.map(day => (
+                                    <DayAccordion 
+                                        key={day.id} day={day}
+                                        isExpanded={!!expandedDays[day.id]} 
+                                        onToggle={() => setExpandedDays(prev => ({...prev, [day.id]: !prev[day.id]}))}
+                                        onDeleteDay={() => setSplits(splits.map(s => s.id === activeSplitId ? {...s, days: s.days.filter(d => d.id !== day.id)} : s))}
+                                        onUpdate={(updatedDay) => setSplits(splits.map(s => s.id === activeSplitId ? {...s, days: s.days.map(d => d.id === updatedDay.id ? updatedDay : d)} : s))}
+                                        uniqueNames={uniqueExerciseNames}
+                                    />
+                                ))}
+                                <button 
+                                    onClick={() => {
+                                        const nextDayNum = activeSplit.days.length + 1;
+                                        const newDayId = generateId();
+                                        setSplits(splits.map(s => s.id === activeSplitId ? {...s, days: [...s.days, {id: newDayId, name: `اليوم ${nextDayNum}`, exercises: []}]} : s));
+                                        setExpandedDays(prev => ({...prev, [newDayId]: true}));
+                                    }}
+                                    className="w-full py-4 border border-dashed border-theme-dim text-theme-dim hover:border-theme-accent hover:text-theme-accent font-arabic font-bold mt-4 transition-colors"
+                                >
+                                    + إضافة يوم جديد
+                                </button>
+                                <div className="h-20"></div>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
