@@ -2,29 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>PowerEra  - V2.1</title>
-    
-    <!-- Web App Manifest settings -->
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="PowerEra 84">
-    
-    <!-- Icons -->
-    <link rel="icon" href="app-icon.png">
-    <link rel="apple-touch-icon" href="app-icon.png">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PowerEra - Cyber Diet</title>
 
-    <!-- React Libraries -->
-    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lalezar&family=Orbitron:wght@400;700;900&family=Tajawal:wght@400;500;700;800&family=VT323&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@500;700;800&family=Orbitron:wght@700;900&family=VT323&display=swap" rel="stylesheet">
-
-    <!-- Tailwind Config -->
     <script>
         tailwind.config = {
             theme: {
@@ -36,915 +21,408 @@
                             text: 'var(--text-main)',
                             dim: 'var(--text-dim)',
                             accent: 'var(--accent-color)',
-                            border: 'var(--border-color)',
+                            border: 'var(--border-color)'
                         }
                     },
                     fontFamily: {
-                        head: ['Orbitron', 'sans-serif'],
-                        mono: ['VT323', 'monospace'], 
-                        arabic: ['Tajawal', 'sans-serif'],
+                        tajawal: ['Tajawal', 'sans-serif'],
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        vt323: ['VT323', 'monospace'],
+                        lalezar: ['Lalezar', 'system-ui'],
                     }
                 }
             }
         }
     </script>
 
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
     <style>
-        /* --- RETRO THEME ENGINE --- */
-        :root {
-            /* Neon City (Default) */
-            --bg-color: #050510;
-            --card-bg: #101020;
-            --text-main: #e0e0ff;
-            --text-dim: #6060a0;
-            --accent-color: #f0f;
-            --border-color: #2a2a40;
-            --shadow-color: rgba(255, 0, 255, 0.6);
+        :root, [data-theme="default"] {
+            --bg-color: #09090b;
+            --card-bg: rgba(20, 20, 25, 0.85);
+            --text-main: #f4f4f5;
+            --text-dim: #a1a1aa;
+            --accent-color: #d946ef; /* Neon Purple */
+            --border-color: #d946ef;
+            --shadow-color: rgba(217, 70, 239, 0.5);
         }
 
-        [data-theme='terminal'] { /* Green Mono */
+        [data-theme="terminal"] {
             --bg-color: #000000;
-            --card-bg: #001100;
-            --text-main: #00ff41;
-            --text-dim: #008f11;
-            --accent-color: #00ff41;
-            --border-color: #003300;
-            --shadow-color: rgba(0, 255, 65, 0.5);
+            --card-bg: rgba(0, 20, 0, 0.85);
+            --text-main: #22c55e;
+            --text-dim: #166534;
+            --accent-color: #4ade80; /* Matrix Green */
+            --border-color: #22c55e;
+            --shadow-color: rgba(34, 197, 94, 0.5);
         }
 
-        [data-theme='synthwave'] { /* Blue/Red */
-            --bg-color: #0a0a1a;
-            --card-bg: #151525;
-            --text-main: #ffffff;
-            --text-dim: #ea4c89;
-            --accent-color: #4285f4; 
-            --border-color: #ea4c89;
-            --shadow-color: rgba(66, 133, 244, 0.6);
+        [data-theme="synthwave"] {
+            --bg-color: #0f172a;
+            --card-bg: rgba(30, 41, 59, 0.85);
+            --text-main: #2dd4bf;
+            --text-dim: #0f766e;
+            --accent-color: #f472b6; /* Neon Pink */
+            --border-color: #f472b6;
+            --shadow-color: rgba(244, 114, 182, 0.5);
         }
 
-        [data-theme='icenet'] { /* Cyan/Blue */
-            --bg-color: #000810;
-            --card-bg: #001018;
-            --text-main: #d0ffff;
-            --text-dim: #005f73;
-            --accent-color: #00d8ff;
-            --border-color: #003040;
-            --shadow-color: rgba(0, 216, 255, 0.5);
+        [data-theme="icenet"] {
+            --bg-color: #082f49;
+            --card-bg: rgba(12, 74, 110, 0.85);
+            --text-main: #e0f2fe;
+            --text-dim: #7dd3fc;
+            --accent-color: #38bdf8; /* Ice Blue */
+            --border-color: #0ea5e9;
+            --shadow-color: rgba(56, 189, 248, 0.5);
         }
 
-        [data-theme='blackops'] { /* Black Ops II (Orange/Tactical Black) */
+        [data-theme="blackops"] {
             --bg-color: #0a0a0a;
-            --card-bg: #141414;
-            --text-main: #e0e0e0;
-            --text-dim: #707070;
-            --accent-color: #ff9000;
-            --border-color: #ff9000;
-            --shadow-color: rgba(255, 144, 0, 0.3);
+            --card-bg: rgba(23, 23, 23, 0.85);
+            --text-main: #ffffff;
+            --text-dim: #737373;
+            --accent-color: #f97316; /* Orange */
+            --border-color: #ea580c;
+            --shadow-color: rgba(249, 115, 22, 0.5);
         }
 
-        [data-theme='nokia'] { /* Nokia Brick - Dimmed Version */
-            --bg-color: #9cbda7;
-            --card-bg: #8ba895;
-            --text-main: #2b362a;
-            --text-dim: #4a5c4b;
-            --accent-color: #1a211a;
-            --border-color: #3e4d3d;
-            --shadow-color: rgba(67, 82, 61, 0.0);
+        [data-theme="nokia"] {
+            --bg-color: #43523d;
+            --card-bg: #c7f0d8;
+            --text-main: #2b3626;
+            --text-dim: #5c7a53;
+            --accent-color: #1a2417; /* Dark Olive */
+            --border-color: #2b3626;
+            --shadow-color: transparent;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Tajawal', sans-serif;
-            overflow: hidden;
-            transition: all 0.5s ease;
+            transition: background-color 0.3s, color 0.3s;
+            overflow-x: hidden;
         }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-color); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 10px; }
 
         /* CRT Effect */
         .crt::before {
             content: " ";
             display: block;
-            position: absolute;
+            position: fixed;
             top: 0; left: 0; bottom: 0; right: 0;
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
-            z-index: 999;
+            z-index: 50;
             background-size: 100% 2px, 3px 100%;
             pointer-events: none;
             opacity: 0.5;
         }
-        [data-theme='nokia'] .crt::before { display: none; }
+        [data-theme="nokia"] .crt::before { display: none; } /* Hide CRT in Nokia theme */
 
+        /* Glow Effects */
         .glow-text { text-shadow: 0 0 5px var(--shadow-color), 0 0 10px var(--shadow-color); }
         .box-glow { box-shadow: 0 0 10px var(--shadow-color), inset 0 0 5px var(--shadow-color); }
+        [data-theme="nokia"] .glow-text { text-shadow: none; }
+        [data-theme="nokia"] .box-glow { box-shadow: none; }
+
+        /* Flip Animation Classes */
+        .perspective-1000 { perspective: 1000px; }
+        .transform-style-3d { transform-style: preserve-3d; }
+        .backface-hidden { backface-visibility: hidden; }
+        .rotate-y-180 { transform: rotateY(180deg); }
+        .flip-transition { transition: transform 0.6s cubic-bezier(0.4, 0.2, 0.2, 1); }
+
+        /* Custom Table Borders */
+        .retro-table th, .retro-table td { border-bottom: 1px solid var(--border-color); }
+        .retro-table tr:last-child td { border-bottom: none; }
         
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        input:focus { outline: none; }
-        
-        /* Auto-complete scrollbar custom */
-        .custom-scroll::-webkit-scrollbar { width: 4px; }
-        .custom-scroll::-webkit-scrollbar-thumb { background: var(--accent-color); border-radius: 2px; }
+        /* Checkbox Custom */
+        input[type="checkbox"] {
+            appearance: none;
+            width: 20px; height: 20px;
+            border: 2px solid var(--accent-color);
+            border-radius: 2px;
+            background: transparent;
+            position: relative;
+            cursor: pointer;
+        }
+        input[type="checkbox"]:checked { background: var(--accent-color); }
+        input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: var(--bg-color);
+            font-size: 14px;
+            font-weight: bold;
+            top: -2px; left: 3px;
+        }
     </style>
 </head>
-<body class="crt h-screen w-screen selection:bg-theme-accent selection:text-theme-bg">
-    <div id="root" class="h-full w-full relative z-10"></div>
+<body class="crt font-tajawal antialiased min-h-screen">
+    <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useRef, useMemo } = React;
+        const { useState, useEffect, useMemo } = React;
 
-        // --- ICONS ---
-        const IconMenu = ({size=24}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square"><circle cx="12" cy="12" r="1"/><circle cx="12" cy="5" r="1"/><circle cx="12" cy="19" r="1"/></svg>;
-        const IconBack = ({size=24}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>;
-        const IconTrash = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M3 6h18M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>;
-        const IconPlus = ({size=28}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><path d="M12 5v14M5 12h14"/></svg>;
-        const IconShare = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>;
-        const IconDownload = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>;
-        const IconCopy = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>;
-        const IconNote = ({size=20, filled=false}) => <svg width={size} height={size} viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>;
-        const IconArrowUp = ({size=14}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><polyline points="18 15 12 9 6 15"/></svg>;
-        const IconArrowDown = ({size=14}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="square"><polyline points="6 9 12 15 18 9"/></svg>;
-        const IconChevronDown = ({size=20, className}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="square" className={className}><polyline points="6 9 12 15 18 9"/></svg>;
-        const IconBarbell = ({size=20}) => <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square"><path d="M2 12h20"/><rect x="4" y="8" width="2" height="8"/><rect x="18" y="8" width="2" height="8"/><rect x="6" y="9" width="1" height="6"/><rect x="17" y="9" width="1" height="6"/></svg>;
-
-        // --- THEME DATA ---
-        const THEMES = [
-            { id: 'default', name: 'NEON CITY', color: '#f0f' },
-            { id: 'terminal', name: 'TERMINAL 84', color: '#00ff41' },
-            { id: 'synthwave', name: 'SYNTHWAVE', color: '#4285f4' },
-            { id: 'icenet', name: 'ICE NET', color: '#00d8ff' },
-            { id: 'blackops', name: 'BLACK OPS II', color: '#ff9000' },
-            { id: 'nokia', name: 'BRICK PHONE', color: '#43523d' },
+        // --- Data Structure ---
+        const MEAL_DATA = [
+            {
+                id: "week1",
+                title: "الأسبوع الأول: التأسيس الكلاسيكي",
+                meals: [
+                    { type: "فطور", name: "بيض وتوست", desc: "3 بيضات مقلية بمسحة زبدة + شريحتين توست بر", macros: { cal: 390, p: 24, c: 24, f: 21 } },
+                    { type: "غداء", name: "وعاء الدجاج", desc: "200 جم صدر دجاج + 200 جم رز + 100 جم خضار", macros: { cal: 630, p: 69, c: 64, f: 5 } },
+                    { type: "سناك", name: "طاقة الموز", desc: "حبة موز + ملعقة زبدة فول سوداني + كوب حليب", macros: { cal: 350, p: 12, c: 42, f: 16 } },
+                    { type: "عشاء", name: "قريش الزعتر", desc: "250 جم جبنة قريش + ملعقة زيت زيتون + رشة زعتر", macros: { cal: 330, p: 28, c: 10, f: 19 } }
+                ],
+                groceries: [
+                    "1.2 كيلو صدور دجاج مجمدة", "طبق بيض كبير (30 حبة)", "1 كيلو جبنة قريش", 
+                    "موز (6 حبات)", "حليب كامل الدسم (لتر)", "كيس توست بر", "كيس خضار مجمدة"
+                ]
+            },
+            {
+                id: "week2",
+                title: "الأسبوع الثاني: طاقة الأوزان",
+                meals: [
+                    { type: "فطور", name: "شوفان متكامل", desc: "60 جم شوفان + حليب + ملعقة زبدة فول سوداني + تفاح", macros: { cal: 520, p: 19, c: 78, f: 15 } },
+                    { type: "غداء", name: "مكرونة اللحم", desc: "150 جم لحم بقري مفروم + 150 جم مكرونة + صلصة", macros: { cal: 580, p: 47, c: 54, f: 16 } },
+                    { type: "سناك", name: "تونة وتوست", desc: "علبة تونة بالماء + شريحتين توست بر + شريحة جبن", macros: { cal: 320, p: 36, c: 29, f: 7 } },
+                    { type: "عشاء", name: "سلطة البيض", desc: "4 بيضات مسلوقة + صحن سلطة كبير + زيت زيتون", macros: { cal: 280, p: 24, c: 5, f: 20 } }
+                ],
+                groceries: [
+                    "1 كيلو لحم بقري مفروم", "علبة شوفان كامل الحبة", "حليب قليل الدسم (لتر)", 
+                    "تفاح (6 حبات)", "تونة بالماء (6 علب)", "جبن شرائح لايت", "كيس مكرونة"
+                ]
+            },
+            {
+                id: "week3",
+                title: "الأسبوع الثالث: الشبع المكسيكي",
+                meals: [
+                    { type: "فطور", name: "فول بالزيت", desc: "150 جم فول مدمس + ملعقة زيت زيتون + توست", macros: { cal: 450, p: 14, c: 44, f: 23 } },
+                    { type: "غداء", name: "فاهيتا وبطاطس", desc: "200 جم دجاج + خضار فاهيتا + 300 جم بطاطس", macros: { cal: 655, p: 68, c: 73, f: 4 } },
+                    { type: "سناك", name: "زبادي وموز", desc: "150 جم زبادي يوناني سادة + حبة موز", macros: { cal: 205, p: 15, c: 33, f: 0 } },
+                    { type: "عشاء", name: "بيض وخبز", desc: "4 بيضات مخفوقة + مسحة زبدة + نصف رغيف بر", macros: { cal: 400, p: 28, c: 25, f: 20 } }
+                ],
+                groceries: [
+                    "1.2 كيلو صدور دجاج", "فول مدمس (4 علب)", "بطاطس (كيس)", 
+                    "فلفل رومي ملون وبصل", "زبادي يوناني (6 علب)", "خبز بر / أسمر"
+                ]
+            },
+            {
+                id: "week4",
+                title: "الأسبوع الرابع: المرونة والتصفية",
+                meals: [
+                    { type: "فطور", name: "بانكيك الشوفان", desc: "50 جم شوفان مطحون + بيضتين + رشة قرفة", macros: { cal: 330, p: 19, c: 33, f: 13 } },
+                    { type: "غداء", name: "بروتين ورز", desc: "150 جم دجاج/لحم + 250 جم رز + خضار ورقية", macros: { cal: 645, p: 51, c: 72, f: 10 } },
+                    { type: "سناك", name: "ساندوتش تيركي", desc: "4 شرائح ديك رومي + شريحة جبن + توست + تفاح", macros: { cal: 415, p: 30, c: 51, f: 11 } },
+                    { type: "عشاء", name: "قريش ومكسرات", desc: "250 جم جبنة قريش + ملعقة عسل + مكسرات", macros: { cal: 330, p: 31, c: 29, f: 11 } }
+                ],
+                groceries: [
+                    "شرائح ديك رومي مدخن (تيركي)", "نصف كيلو جبنة قريش", "عسل نحل (علبة)", 
+                    "مكسرات (لوز أو فول سوداني)", "تفاح وخضار ورقية", "*استخدام بواقي اللحوم"
+                ]
+            }
         ];
 
-        // --- UTILS ---
-        const generateId = () => Math.random().toString(36).substr(2, 9);
-        
-        const encodeSplit = (split) => {
-            const json = JSON.stringify(split);
-            return btoa(unescape(encodeURIComponent(json)));
-        };
+        const THEMES = ['default', 'terminal', 'synthwave', 'icenet', 'blackops', 'nokia'];
 
-        const decodeSplit = (code) => {
-            try {
-                const json = decodeURIComponent(escape(window.atob(code)));
-                return JSON.parse(json);
-            } catch (e) {
-                return null;
-            }
-        };
+        // --- Components ---
 
-        const getLiftTypeFromName = (name) => {
-            const n = (name || '').toLowerCase();
-            if (n.includes('squat') || n.includes('سكوات')) return 'squat';
-            if (n.includes('bench') || n.includes('بنش')) return 'bench';
-            if (n.includes('deadlift') || n.includes('ديدليفت') || n.includes('سحب')) return 'deadlift';
-            return null;
-        };
-
-        // --- COMPONENTS ---
-
-        // 1. Theme Menu
-        const ThemeMenu = ({ current, onChange }) => {
-            const [open, setOpen] = useState(false);
-            return (
-                <div className="absolute top-4 left-4 z-50">
-                    <button onClick={() => setOpen(!open)} className="text-theme-dim hover:text-theme-accent transition-colors p-2 border border-transparent hover:border-theme-dim bg-theme-bg/80 rounded-full shadow-[0_0_10px_var(--shadow-color)]">
-                        <IconMenu />
-                    </button>
-                    {open && (
-                        <>
-                            <div className="fixed inset-0 z-40" onClick={() => setOpen(false)}></div>
-                            <div className="absolute top-full left-0 mt-2 w-48 bg-theme-bg border-2 border-theme-accent shadow-[0_0_15px_var(--shadow-color)] z-50 p-2">
-                                <div className="text-xs text-theme-accent font-mono mb-2 border-b border-theme-dim pb-1 text-center">اختر الثيم</div>
-                                {THEMES.map(t => (
-                                    <button 
-                                        key={t.id}
-                                        onClick={() => { onChange(t.id); setOpen(false); }}
-                                        className={`w-full text-right px-3 py-2 text-sm font-mono mb-1 flex items-center justify-between group
-                                            ${current === t.id ? 'bg-theme-accent text-theme-bg' : 'text-theme-text hover:bg-theme-dim/20'}`}
-                                    >
-                                        <span className="group-hover:translate-x-1 transition-transform">{t.name}</span>
-                                        <div className="w-2 h-2 rounded-full border border-theme-dim" style={{background: t.color}}></div>
-                                    </button>
-                                ))}
-                            </div>
-                        </>
-                    )}
-                </div>
-            );
-        };
-
-        // 2. Share Modal
-        const ShareModal = ({ block, onClose }) => {
-            const code = encodeSplit(block);
-            const [copied, setCopied] = useState(false);
-
-            const handleCopy = () => {
-                navigator.clipboard.writeText(code);
-                setCopied(true);
-                setTimeout(() => setCopied(false), 2000);
-            };
-
-            return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                    <div className="bg-theme-bg border-2 border-theme-accent p-6 w-full max-w-sm relative box-glow animate-scan">
-                        <button onClick={onClose} className="absolute top-2 right-2 text-theme-dim hover:text-red-500">X</button>
-                        <h3 className="text-xl font-head text-theme-accent mb-2 glow-text">تصدير البلوك</h3>
-                        <p className="text-xs text-theme-dim font-mono mb-4">انسخ الكود وأرسله لصديقك لاستيراد البلوك.</p>
-                        
-                        <div className="bg-black/40 border border-theme-dim p-2 mb-4 overflow-hidden relative">
-                            <div className="text-[10px] text-theme-text font-mono break-all h-20 overflow-y-auto custom-scroll p-1">
-                                {code}
-                            </div>
-                        </div>
-
-                        <button 
-                            onClick={handleCopy}
-                            className={`w-full py-3 border border-theme-accent font-bold font-arabic transition-all flex items-center justify-center gap-2
-                                ${copied ? 'bg-theme-accent text-theme-bg' : 'text-theme-accent hover:bg-theme-accent/10'}`}
-                        >
-                            {copied ? 'تم النسخ!' : <><IconCopy size={18} /> نسخ الكود</>}
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        // 3. Import Modal
-        const ImportModal = ({ onImport, onClose }) => {
-            const [code, setCode] = useState('');
-            const [error, setError] = useState(false);
-
-            const handleImport = () => {
-                const data = decodeSplit(code);
-                if (data && data.name && (data.weeks || data.days)) {
-                    onImport(data);
-                } else {
-                    setError(true);
-                }
-            };
-
-            return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                    <div className="bg-theme-bg border-2 border-theme-accent p-6 w-full max-w-sm relative box-glow">
-                        <button onClick={onClose} className="absolute top-2 right-2 text-theme-dim hover:text-red-500">X</button>
-                        <h3 className="text-xl font-head text-theme-accent mb-2 glow-text">استيراد بيانات</h3>
-                        <p className="text-xs text-theme-dim font-mono mb-4">الصق كود البلوك/الجدول هنا لإضافته لمكتبتك.</p>
-                        
-                        <textarea
-                            value={code}
-                            onChange={(e) => {setCode(e.target.value); setError(false);}}
-                            placeholder="لصق الكود هنا..."
-                            className="w-full bg-black/40 border border-theme-dim text-theme-text font-mono text-xs p-2 h-24 focus:border-theme-accent outline-none mb-2 resize-none"
-                        ></textarea>
-
-                        {error && <p className="text-red-500 text-xs font-bold mb-3 text-center blink">خطأ: الكود غير صالح</p>}
-
-                        <button 
-                            onClick={handleImport}
-                            className="w-full py-3 bg-theme-accent/10 text-theme-accent border border-theme-accent font-bold font-arabic hover:bg-theme-accent hover:text-theme-bg transition-colors flex items-center justify-center gap-2"
-                        >
-                            <IconDownload size={18} /> استيراد البرنامج
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        // 3.5 Maxes (1RM) Modal
-        const MaxesModal = ({ maxes, onClose, onSave }) => {
-            const [localMaxes, setLocalMaxes] = useState(maxes);
-            
-            return (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-                    <div className="bg-theme-bg border-2 border-theme-accent p-6 w-full max-w-sm relative box-glow">
-                        <button onClick={onClose} className="absolute top-2 right-2 text-theme-dim hover:text-red-500">X</button>
-                        <h3 className="text-xl font-head text-theme-accent mb-2 glow-text flex items-center gap-2">
-                            <IconBarbell size={20} /> 
-                            <span>أوزان 1RM (SBD)</span>
-                        </h3>
-                        <p className="text-xs text-theme-dim font-mono mb-4 leading-relaxed">
-                            أدخل أقصى وزن لك (1RM). سيقوم التطبيق تلقائياً بتحديث أوزانك في كافة الجداول بناءً على النسب المئوية المدخلة!
-                        </p>
-                        
-                        <div className="space-y-4 mb-6">
-                            <div className="border border-theme-dim p-2 bg-black/20 focus-within:border-theme-accent transition-colors">
-                                <label className="text-[10px] text-theme-dim font-mono uppercase mb-1 block">Squat (سكوات)</label>
-                                <div className="flex items-baseline gap-2">
-                                    <input type="number" value={localMaxes.squat || ''} onChange={e => setLocalMaxes({...localMaxes, squat: parseFloat(e.target.value) || 0})} className="w-full bg-transparent text-theme-text font-mono text-xl outline-none" placeholder="0" />
-                                    <span className="text-xs text-theme-dim font-mono">KG</span>
-                                </div>
-                            </div>
-                            <div className="border border-theme-dim p-2 bg-black/20 focus-within:border-theme-accent transition-colors">
-                                <label className="text-[10px] text-theme-dim font-mono uppercase mb-1 block">Bench Press (بنش برس)</label>
-                                <div className="flex items-baseline gap-2">
-                                    <input type="number" value={localMaxes.bench || ''} onChange={e => setLocalMaxes({...localMaxes, bench: parseFloat(e.target.value) || 0})} className="w-full bg-transparent text-theme-text font-mono text-xl outline-none" placeholder="0" />
-                                    <span className="text-xs text-theme-dim font-mono">KG</span>
-                                </div>
-                            </div>
-                            <div className="border border-theme-dim p-2 bg-black/20 focus-within:border-theme-accent transition-colors">
-                                <label className="text-[10px] text-theme-dim font-mono uppercase mb-1 block">Deadlift (ديدليفت)</label>
-                                <div className="flex items-baseline gap-2">
-                                    <input type="number" value={localMaxes.deadlift || ''} onChange={e => setLocalMaxes({...localMaxes, deadlift: parseFloat(e.target.value) || 0})} className="w-full bg-transparent text-theme-text font-mono text-xl outline-none" placeholder="0" />
-                                    <span className="text-xs text-theme-dim font-mono">KG</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <button 
-                            onClick={() => onSave(localMaxes)}
-                            className="w-full py-3 bg-theme-accent/10 text-theme-accent border border-theme-accent font-bold font-arabic hover:bg-theme-accent hover:text-theme-bg transition-colors"
-                        >
-                            حفظ وتحديث الجداول
-                        </button>
-                    </div>
-                </div>
-            );
-        };
-
-        // 4. Exercise Card
-        const ExerciseCard = ({ exercise, onChange, onDelete, onMoveUp, onMoveDown, isFirst, isLast, uniqueNames, maxes }) => {
-            const [showSuggestions, setShowSuggestions] = useState(false);
-            const [showNotes, setShowNotes] = useState(false);
-            const hasNotes = exercise.notes && exercise.notes.trim().length > 0;
-            
-            const liftType = getLiftTypeFromName(exercise.name);
-            const percentValue = parseFloat(exercise.percent) || 0;
-            const maxWeight = liftType && maxes ? (parseFloat(maxes[liftType]) || 0) : 0;
-            
-            const isAutoCalculated = liftType !== null && percentValue > 0 && maxWeight > 0;
-            const isMissingMax = liftType !== null && percentValue > 0 && maxWeight === 0;
-
-            // Handlers that enforce immediate overwrite of weight data
-            const handlePercentChange = (val) => {
-                const newPercent = val;
-                let newWeight = exercise.weight;
-
-                if (liftType && newPercent > 0 && maxes && maxes[liftType] > 0) {
-                    const maxW = parseFloat(maxes[liftType]);
-                    const p = parseFloat(newPercent) / 100;
-                    newWeight = Number((maxW * p).toFixed(1));
-                }
-
-                onChange({...exercise, percent: newPercent, weight: newWeight});
-            };
-
-            const handleNameChange = (val) => {
-                const newName = val;
-                let newWeight = exercise.weight;
-                
-                const newLiftType = getLiftTypeFromName(newName);
-
-                if (newLiftType && exercise.percent > 0 && maxes && maxes[newLiftType] > 0) {
-                    const maxW = parseFloat(maxes[newLiftType]);
-                    const p = parseFloat(exercise.percent) / 100;
-                    newWeight = Number((maxW * p).toFixed(1));
-                }
-                
-                onChange({...exercise, name: newName, weight: newWeight});
-            };
-
-            const adjustWeight = (dir) => {
-                if (isAutoCalculated) {
-                    const newPercent = Math.max(0, percentValue + (dir > 0 ? 1 : -1));
-                    handlePercentChange(newPercent);
-                } else {
-                    const current = parseFloat(exercise.weight) || 0;
-                    onChange({ ...exercise, weight: Math.max(0, current + (dir > 0 ? 2.5 : -2.5)), percent: '' });
-                }
-            };
-
-            const filteredSuggestions = uniqueNames.filter(n => 
-                n.includes(exercise.name.trim()) && n !== exercise.name.trim()
-            ).slice(0, 5);
-
-            return (
-                <div className={`border bg-theme-bg/40 p-4 mb-4 relative group transition-colors ${isAutoCalculated ? 'border-theme-accent/50 box-glow' : 'border-theme-dim hover:border-theme-accent'}`}>
-                    <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-theme-dim group-hover:border-theme-accent"></div>
-                    <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-theme-dim group-hover:border-theme-accent"></div>
-
-                    <div className="flex justify-between items-center mb-4 gap-3 relative">
-                         <div className="flex items-center gap-2 shrink-0">
-                             <button onClick={onDelete} className="text-theme-dim hover:text-red-500 p-2 border border-theme-dim/30 rounded active:scale-95">
-                                <IconTrash size={18} />
-                            </button>
-                            
-                            <button 
-                                onClick={() => setShowNotes(!showNotes)} 
-                                className={`p-2 border rounded active:scale-95 transition-colors ${hasNotes || showNotes ? 'border-theme-accent text-theme-accent bg-theme-accent/10' : 'border-theme-dim/30 text-theme-dim hover:text-theme-accent hover:border-theme-accent'}`}
-                                title="ملاحظات التمرين"
-                            >
-                                <IconNote size={18} filled={hasNotes} />
-                            </button>
-                            
-                            <div className="flex flex-col gap-1">
-                                <button 
-                                    onClick={onMoveUp} 
-                                    disabled={isFirst}
-                                    className={`p-0.5 border border-theme-dim/30 rounded ${isFirst ? 'opacity-30 cursor-not-allowed' : 'text-theme-dim hover:text-theme-accent hover:border-theme-accent active:bg-theme-accent/10'}`}
-                                >
-                                    <IconArrowUp size={12} />
-                                </button>
-                                <button 
-                                    onClick={onMoveDown} 
-                                    disabled={isLast}
-                                    className={`p-0.5 border border-theme-dim/30 rounded ${isLast ? 'opacity-30 cursor-not-allowed' : 'text-theme-dim hover:text-theme-accent hover:border-theme-accent active:bg-theme-accent/10'}`}
-                                >
-                                    <IconArrowDown size={12} />
-                                </button>
-                            </div>
-                         </div>
-                        
-                        <div className="flex-1 relative h-full flex items-end">
-                            <input 
-                                value={exercise.name}
-                                onChange={(e) => {
-                                    handleNameChange(e.target.value);
-                                    setShowSuggestions(true);
-                                }}
-                                onFocus={() => setShowSuggestions(true)}
-                                onBlur={() => setShowSuggestions(false)}
-                                placeholder="اسم التمرين"
-                                className="bg-transparent text-right font-arabic font-bold text-xl text-theme-text placeholder-theme-dim/50 focus:text-theme-accent w-full border-b border-theme-dim/30 focus:border-theme-accent transition-colors pb-1"
-                            />
-                            
-                            {showSuggestions && exercise.name.trim() && filteredSuggestions.length > 0 && (
-                                <div className="absolute top-full right-0 mt-1 w-full bg-theme-bg border border-theme-accent z-50 shadow-[0_0_15px_var(--shadow-color)] max-h-40 overflow-y-auto custom-scroll">
-                                    {filteredSuggestions.map(sug => (
-                                        <div 
-                                            key={sug}
-                                            onMouseDown={(e) => {
-                                                e.preventDefault(); 
-                                                handleNameChange(sug);
-                                                setShowSuggestions(false);
-                                            }}
-                                            className="p-3 border-b border-theme-dim/30 text-theme-text hover:bg-theme-accent hover:text-theme-bg cursor-pointer font-arabic font-bold transition-colors text-right"
-                                        >
-                                            {sug}
-                                        </div>
-                                    ))}
-                                </div>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="grid grid-cols-12 gap-3">
-                        <div className={`col-span-12 border p-2 flex items-center justify-between ${isAutoCalculated ? 'border-theme-accent/50 bg-theme-accent/5' : 'border-theme-dim/50 bg-black/20'}`}>
-                            <button onClick={() => adjustWeight(-1)} className="px-4 py-2 text-theme-dim hover:text-theme-text font-mono text-xl active:bg-theme-dim/10 transition-colors">-</button>
-                            
-                            <div className="flex flex-col items-center justify-center relative">
-                                {isAutoCalculated && <span className="text-[8px] text-theme-accent font-mono tracking-widest uppercase opacity-80 mb-[-4px]">Auto-Calculated</span>}
-                                {isMissingMax && <span className="text-[10px] text-red-500 font-mono tracking-widest uppercase mb-[-4px] blink font-bold absolute -top-4">تعيين 1RM!</span>}
-                                
-                                <div className={`flex items-baseline font-mono text-2xl ${isAutoCalculated ? 'text-theme-accent glow-text' : 'text-theme-text'}`}>
-                                    <input 
-                                        type="number" 
-                                        value={exercise.weight === 0 ? '' : exercise.weight} 
-                                        onChange={(e) => onChange({...exercise, weight: parseFloat(e.target.value) || 0, percent: ''})}
-                                        className="w-24 bg-transparent text-center focus:outline-none focus:text-theme-accent"
-                                        placeholder="0"
-                                    />
-                                    <span className="text-xs ml-1 text-theme-dim">KG</span>
-                                </div>
-                            </div>
-
-                            <button onClick={() => adjustWeight(1)} className="px-4 py-2 text-theme-dim hover:text-theme-text font-mono text-xl active:bg-theme-dim/10 transition-colors">+</button>
-                        </div>
-                        
-                        <div className="col-span-3 border border-theme-dim/50 flex flex-col items-center justify-center p-2 bg-black/20">
-                            <span className="text-[9px] text-theme-dim font-mono uppercase mb-1">نسبة %</span>
-                            <input type="number" value={exercise.percent || ''} onChange={(e) => handlePercentChange(e.target.value)} placeholder="-" className={`w-full bg-transparent text-center font-bold font-mono text-xl focus:outline-none ${isMissingMax ? 'text-red-500' : 'text-theme-accent'}`} />
-                        </div>
-                        <div className="col-span-3 border border-theme-dim/50 flex flex-col items-center justify-center p-2 bg-black/20">
-                            <span className="text-[9px] text-theme-dim font-mono uppercase mb-1">RPE</span>
-                            <input type="number" value={exercise.rpe || ''} onChange={(e) => onChange({...exercise, rpe: e.target.value})} placeholder="-" className="w-full bg-transparent text-center text-theme-text font-mono text-xl focus:outline-none" />
-                        </div>
-                        <div className="col-span-3 border border-theme-dim/50 flex flex-col items-center justify-center p-2 bg-black/20">
-                            <span className="text-[9px] text-theme-dim font-mono uppercase mb-1">جلسات</span>
-                            <input type="number" value={exercise.sets} onChange={(e) => onChange({...exercise, sets: e.target.value})} className="w-full bg-transparent text-center text-theme-text font-mono text-xl focus:outline-none" />
-                        </div>
-                        <div className="col-span-3 border border-theme-dim/50 flex flex-col items-center justify-center p-2 bg-black/20">
-                            <span className="text-[9px] text-theme-dim font-mono uppercase mb-1">عدات</span>
-                            <input type="number" value={exercise.reps} onChange={(e) => onChange({...exercise, reps: e.target.value})} className="w-full bg-transparent text-center text-theme-text font-mono text-xl focus:outline-none" />
-                        </div>
-                    </div>
-
-                    {showNotes && (
-                        <div className="mt-3 p-1 animate-scan">
-                            <textarea
-                                value={exercise.notes || ''}
-                                onChange={(e) => onChange({...exercise, notes: e.target.value})}
-                                placeholder="> إدخال ملاحظة (مثال: الجهاز معطل، ألم خفيف في الكتف...)"
-                                className="w-full bg-black/60 border-r-2 border-theme-accent text-theme-text placeholder-theme-dim/50 font-mono text-sm p-3 min-h-[60px] focus:outline-none focus:bg-black/80 resize-y"
-                            ></textarea>
-                        </div>
-                    )}
-                </div>
-            );
-        };
-
-        // 5. Day Accordion
-        const DayAccordion = ({ day, isExpanded, onToggle, onUpdate, onDeleteDay, uniqueNames, maxes }) => {
-            const moveExercise = (index, direction) => {
-                const newExercises = [...day.exercises];
-                const targetIndex = index + direction;
-                if (targetIndex >= 0 && targetIndex < newExercises.length) {
-                    [newExercises[index], newExercises[targetIndex]] = [newExercises[targetIndex], newExercises[index]];
-                    onUpdate({...day, exercises: newExercises});
-                }
-            };
-
-            return (
-                <div className={`border-l-2 transition-all duration-300 mb-6 ${isExpanded ? 'border-theme-accent bg-theme-accent/5' : 'border-theme-dim bg-transparent'}`}>
-                    <div onClick={onToggle} className="p-4 flex justify-between items-center cursor-pointer hover:bg-theme-dim/10">
-                        <div className="flex-1 flex items-center gap-2">
-                            <div className={`transition-transform duration-300 ${isExpanded ? 'rotate-180 text-theme-accent' : 'text-theme-dim'}`}>
-                                <IconChevronDown size={20} />
-                            </div>
-                            <input 
-                                value={day.name}
-                                onClick={(e) => e.stopPropagation()}
-                                onChange={(e) => onUpdate({...day, name: e.target.value})}
-                                className={`bg-transparent w-full font-arabic font-bold text-xl tracking-wide ${isExpanded ? 'text-theme-accent glow-text' : 'text-theme-dim'}`}
-                                placeholder="اسم اليوم"
-                            />
-                        </div>
-                        <div className="text-theme-text font-mono text-sm border border-theme-dim px-2 py-0.5">
-                            {day.exercises.length} <span className="text-theme-dim">تمارين</span>
-                        </div>
-                    </div>
-                    
-                    <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[10000px] opacity-100' : 'max-h-0 opacity-0'}`}>
-                        <div className="p-4 border-t border-theme-dim/30">
-                            {day.exercises.map((ex, idx) => (
-                                <ExerciseCard 
-                                    key={ex.id} 
-                                    exercise={ex}
-                                    isFirst={idx === 0}
-                                    isLast={idx === day.exercises.length - 1}
-                                    onMoveUp={() => moveExercise(idx, -1)}
-                                    onMoveDown={() => moveExercise(idx, 1)}
-                                    onChange={(u) => onUpdate({...day, exercises: day.exercises.map(e => e.id === u.id ? u : e)})} 
-                                    onDelete={() => onUpdate({...day, exercises: day.exercises.filter(e => e.id !== ex.id)})}
-                                    uniqueNames={uniqueNames}
-                                    maxes={maxes}
-                                />
-                            ))}
-                            <div className="flex gap-3 mt-4">
-                                <button 
-                                    onClick={() => onUpdate({...day, exercises: [...day.exercises, {id: generateId(), name:'', weight:0, percent:'', sets:0, reps:0, rpe:'', notes:''}]})}
-                                    className="flex-1 py-3 border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg font-arabic font-bold text-sm transition-colors"
-                                >
-                                    + تمرين جديد
-                                </button>
-                                <button 
-                                    onClick={() => onDeleteDay()}
-                                    className="px-4 border border-theme-dim text-theme-dim hover:text-red-500 hover:border-red-500 transition-colors"
-                                    title="حذف اليوم"
-                                >
-                                    <IconTrash />
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            );
-        };
-
-        // 6. Main List View (Blocks)
-        const MainView = ({ blocks, onCreate, onEdit, onDelete, onShare, onImportOpen, onMaxesOpen }) => (
-            <div className="h-full flex flex-col relative">
-                <header className="p-6 border-b-2 border-theme-dim flex items-center justify-between bg-theme-bg/90 backdrop-blur z-20 sticky top-0 pl-16">
-                    <div className="flex items-center gap-4">
-                        <h2 className="text-2xl font-head font-bold text-theme-text glow-text">
-                            بلوكاتي <span className="text-theme-accent blink">_</span>
-                        </h2>
-                    </div>
-                    
-                    <div className="flex items-center gap-2">
-                        <button onClick={onMaxesOpen} className="text-theme-dim hover:text-theme-accent flex items-center gap-1 font-arabic text-xs border border-theme-dim px-2 py-1 rounded hover:border-theme-accent transition-colors">
-                            <IconBarbell size={14} /> 1RM
-                        </button>
-                        <button onClick={onImportOpen} className="text-theme-dim hover:text-theme-accent flex items-center gap-1 font-arabic text-xs border border-theme-dim px-2 py-1 rounded hover:border-theme-accent transition-colors">
-                            <IconDownload size={14} /> استيراد
-                        </button>
-                    </div>
-                </header>
-
-                <div className="flex-1 overflow-y-auto no-scrollbar p-6 pb-24">
-                    {blocks.length === 0 ? (
-                        <div className="flex flex-col items-center justify-center h-64 text-theme-dim font-arabic border border-dashed border-theme-dim mt-8">
-                            <p className="mb-2 font-bold text-lg">لا توجد برامج/بلوكات</p>
-                            <p className="text-xs">اضغط الزر بالأسفل للبدء في بناء بلوك جديد</p>
-                        </div>
-                    ) : (
-                        blocks.map(block => (
-                            <div key={block.id} onClick={() => onEdit(block.id)} className="border border-theme-dim p-4 mb-4 hover:border-theme-accent hover:bg-theme-accent/5 cursor-pointer transition-all group relative">
-                                <h3 className="font-arabic font-bold text-xl text-theme-text group-hover:text-theme-accent mb-1">{block.name}</h3>
-                                <div className="h-px w-full bg-gradient-to-r from-theme-accent/50 to-transparent my-2"></div>
-                                <div className="flex justify-between items-end mt-3">
-                                    <span className="text-xs font-mono text-theme-dim">
-                                        عدد الأسابيع: {block.weeks.length}
-                                    </span>
-                                    <div className="flex gap-3">
-                                        <button onClick={(e) => {e.stopPropagation(); onShare(block)}} className="text-theme-dim hover:text-theme-accent z-10 p-1">
-                                            <IconShare size={18} />
-                                        </button>
-                                        <button onClick={(e) => {e.stopPropagation(); onDelete(block.id)}} className="text-theme-dim hover:text-red-500 z-10 p-1">
-                                            <IconTrash size={18} />
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        ))
-                    )}
-                </div>
-
-                <button 
-                    onClick={onCreate} 
-                    className="absolute bottom-6 left-6 w-16 h-16 bg-theme-bg border-2 border-theme-accent text-theme-accent rounded-full flex items-center justify-center shadow-[0_0_20px_var(--shadow-color)] hover:bg-theme-accent hover:text-theme-bg active:scale-90 transition-all z-30"
-                >
-                    <IconPlus />
-                </button>
-            </div>
+        // 1. Sniper Corners (Decorations)
+        const SniperCorners = () => (
+            <>
+                <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-theme-accent"></div>
+                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-theme-accent"></div>
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-theme-accent"></div>
+                <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-theme-accent"></div>
+            </>
         );
 
-        // --- APP CONTROLLER ---
-        const App = () => {
-            const [view, setView] = useState('LIST');
-            const [theme, setTheme] = useState(() => localStorage.getItem('retro_theme') || 'default');
-            
-            const [maxes, setMaxes] = useState(() => JSON.parse(localStorage.getItem('retro_maxes') || '{"squat":0,"bench":0,"deadlift":0}'));
+        // 2. Theme Menu
+        const ThemeMenu = ({ currentTheme, setTheme }) => {
+            const [isOpen, setIsOpen] = useState(false);
 
-            const [blocks, setBlocks] = useState(() => {
-                const saved = JSON.parse(localStorage.getItem('retro_splits') || '[]');
-                return saved.map(item => {
-                    if (item.days && !item.weeks) {
-                        return { id: item.id, name: item.name, weeks: [{ id: generateId(), name: 'الأسبوع 1', days: item.days }] };
-                    }
-                    return item; 
-                });
+            return (
+                <div className="fixed top-4 left-4 z-50">
+                    <button 
+                        onClick={() => setIsOpen(!isOpen)}
+                        className="w-12 h-12 rounded-none border border-theme-accent bg-theme-bg flex items-center justify-center text-theme-accent box-glow hover:bg-theme-accent hover:text-theme-bg transition-colors active:scale-95"
+                    >
+                        <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                            <path strokeLinecap="square" strokeLinejoin="miter" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                        </svg>
+                    </button>
+                    
+                    {isOpen && (
+                        <div className="absolute top-14 left-0 w-40 bg-theme-card border border-theme-accent backdrop-blur-md p-2 box-glow">
+                            <SniperCorners />
+                            {THEMES.map(theme => (
+                                <button
+                                    key={theme}
+                                    onClick={() => { setTheme(theme); setIsOpen(false); }}
+                                    className={`w-full text-left px-3 py-2 text-sm font-orbitron uppercase mb-1 transition-colors ${currentTheme === theme ? 'bg-theme-accent text-theme-bg' : 'text-theme-dim hover:text-theme-accent'}`}
+                                >
+                                    > {theme}
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
+        // 3. Flip Card Component (Week View)
+        const WeekCard = ({ weekData, checkedItems, toggleCheck }) => {
+            const [isFlipped, setIsFlipped] = useState(false);
+
+            return (
+                <div className="relative w-full perspective-1000 mb-12 h-[500px]">
+                    <div className={`w-full h-full transform-style-3d flip-transition ${isFlipped ? 'rotate-y-180' : ''}`}>
+                        
+                        {/* Front Side: Meal Plan Table */}
+                        <div className="absolute w-full h-full backface-hidden bg-theme-card border border-theme-border p-6 flex flex-col backdrop-blur-sm box-glow">
+                            <SniperCorners />
+                            
+                            <div className="flex justify-between items-center mb-6 border-b border-theme-dim pb-4">
+                                <h2 className="text-2xl font-bold text-theme-accent glow-text font-tajawal">{weekData.title}</h2>
+                                <button 
+                                    onClick={() => setIsFlipped(true)}
+                                    className="flex items-center gap-2 px-4 py-2 bg-transparent border border-theme-accent text-theme-accent hover:bg-theme-accent hover:text-theme-bg transition-all active:scale-95 font-bold"
+                                >
+                                    <span>المقاضي</span>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="square" strokeLinejoin="miter" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 0a2 2 0 100 4 2 2 0 000-4z"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto pr-2">
+                                <table className="w-full text-right retro-table border-collapse">
+                                    <thead>
+                                        <tr className="text-theme-dim text-sm uppercase font-orbitron">
+                                            <th className="py-3 px-2">TYPE</th>
+                                            <th className="py-3 px-2">MEAL</th>
+                                            <th className="py-3 px-2">MACROS</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {weekData.meals.map((meal, idx) => (
+                                            <tr key={idx} className="hover:bg-theme-accent hover:bg-opacity-10 transition-colors">
+                                                <td className="py-4 px-2 font-bold text-theme-accent">{meal.type}</td>
+                                                <td className="py-4 px-2">
+                                                    <div className="font-bold text-lg mb-1">{meal.name}</div>
+                                                    <div className="text-sm text-theme-dim">{meal.desc}</div>
+                                                </td>
+                                                <td className="py-4 px-2 font-vt323 text-lg tracking-wider">
+                                                    <div className="text-theme-accent">🔥 {meal.macros.cal} KCAL</div>
+                                                    <div className="text-theme-main">P:{meal.macros.p} | C:{meal.macros.c} | F:{meal.macros.f}</div>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        {/* Back Side: Groceries List */}
+                        <div className="absolute w-full h-full backface-hidden bg-theme-bg border border-theme-border p-6 flex flex-col backdrop-blur-sm box-glow rotate-y-180">
+                            <SniperCorners />
+                            
+                            <div className="flex justify-between items-center mb-6 border-b border-theme-dim pb-4">
+                                <h2 className="text-2xl font-bold text-theme-text glow-text">قائمة مقاضي {weekData.title.split(':')[0]}</h2>
+                                <button 
+                                    onClick={() => setIsFlipped(false)}
+                                    className="flex items-center gap-2 px-4 py-2 bg-theme-accent text-theme-bg border border-theme-accent hover:bg-transparent hover:text-theme-accent transition-all active:scale-95 font-bold"
+                                >
+                                    <span>الجدول</span>
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                                        <path strokeLinecap="square" strokeLinejoin="miter" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path>
+                                    </svg>
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto">
+                                <div className="space-y-4">
+                                    {weekData.groceries.map((item, idx) => {
+                                        const itemId = `${weekData.id}_${idx}`;
+                                        const isChecked = checkedItems[itemId] || false;
+                                        return (
+                                            <label key={idx} className="flex items-center gap-4 cursor-pointer p-3 hover:bg-theme-card transition-colors border border-transparent hover:border-theme-dim">
+                                                <input 
+                                                    type="checkbox" 
+                                                    checked={isChecked}
+                                                    onChange={() => toggleCheck(itemId)}
+                                                />
+                                                <span className={`text-lg transition-all ${isChecked ? 'line-through text-theme-dim' : 'text-theme-main'}`}>
+                                                    {item}
+                                                </span>
+                                            </label>
+                                        );
+                                    })}
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            );
+        };
+
+        // 4. Main App
+        const App = () => {
+            // Theme State
+            const [theme, setTheme] = useState(() => localStorage.getItem('retro-theme') || 'default');
+            
+            // Groceries Checked State
+            const [checkedItems, setCheckedItems] = useState(() => {
+                const saved = localStorage.getItem('retro-groceries');
+                return saved ? JSON.parse(saved) : {};
             });
 
-            const [activeBlockId, setActiveBlockId] = useState(null);
-            const [activeWeekId, setActiveWeekId] = useState(null);
-            
-            const [sharingBlock, setSharingBlock] = useState(null);
-            const [showImport, setShowImport] = useState(false);
-            const [showMaxesModal, setShowMaxesModal] = useState(false);
-            const [expandedDays, setExpandedDays] = useState({});
-
-            const uniqueExerciseNames = useMemo(() => {
-                const names = new Set();
-                blocks.forEach(b => {
-                    if(b.weeks) {
-                        b.weeks.forEach(w => w.days.forEach(d => d.exercises.forEach(ex => {
-                            const name = ex.name.trim();
-                            if (name) names.add(name);
-                        })));
-                    }
-                });
-                return Array.from(names);
-            }, [blocks]);
-
+            // Update Theme
             useEffect(() => {
                 document.body.setAttribute('data-theme', theme);
-                localStorage.setItem('retro_theme', theme);
+                localStorage.setItem('retro-theme', theme);
             }, [theme]);
 
-            useEffect(() => localStorage.setItem('retro_splits', JSON.stringify(blocks)), [blocks]);
-            useEffect(() => localStorage.setItem('retro_maxes', JSON.stringify(maxes)), [maxes]);
+            // Save Groceries
+            useEffect(() => {
+                localStorage.setItem('retro-groceries', JSON.stringify(checkedItems));
+            }, [checkedItems]);
 
-            const activeBlock = blocks.find(b => b.id === activeBlockId);
-            const activeWeek = activeBlock?.weeks.find(w => w.id === activeWeekId) || activeBlock?.weeks[0];
-
-            // MASS UPDATE: Updates all exercises in all blocks when 1RM is saved
-            const handleSaveMaxes = (newMaxes) => {
-                setMaxes(newMaxes);
-                setShowMaxesModal(false);
-
-                const updatedBlocks = blocks.map(block => ({
-                    ...block,
-                    weeks: block.weeks.map(week => ({
-                        ...week,
-                        days: week.days.map(day => ({
-                            ...day,
-                            exercises: day.exercises.map(ex => {
-                                const liftType = getLiftTypeFromName(ex.name);
-                                if (liftType && parseFloat(ex.percent) > 0 && parseFloat(newMaxes[liftType]) > 0) {
-                                    const maxW = parseFloat(newMaxes[liftType]);
-                                    const p = parseFloat(ex.percent) / 100;
-                                    const calculatedWeight = Number((maxW * p).toFixed(1));
-                                    return { ...ex, weight: calculatedWeight };
-                                }
-                                return ex;
-                            })
-                        }))
-                    }))
-                }));
-                setBlocks(updatedBlocks);
-            };
-
-            const handleImportBlock = (importedData) => {
-                let formattedBlock;
-                if (importedData.days && !importedData.weeks) {
-                    formattedBlock = {
-                        id: generateId(),
-                        name: importedData.name + ' (مستورد)',
-                        weeks: [{
-                            id: generateId(),
-                            name: 'الأسبوع 1',
-                            days: importedData.days.map(d => ({...d, id: generateId(), exercises: d.exercises.map(e => ({...e, id: generateId()}))}))
-                        }]
-                    };
-                } else {
-                    formattedBlock = {
-                        ...importedData,
-                        id: generateId(),
-                        name: importedData.name + ' (مستورد)',
-                        weeks: importedData.weeks.map(w => ({
-                            ...w, id: generateId(), days: w.days.map(d => ({...d, id: generateId(), exercises: d.exercises.map(e => ({...e, id: generateId()}))}))
-                        }))
-                    };
-                }
-                
-                setBlocks([...blocks, formattedBlock]);
-                setShowImport(false);
-            };
-
-            const openEditor = (id) => {
-                const block = blocks.find(b => b.id === id);
-                setActiveBlockId(id);
-                if (block && block.weeks.length > 0) {
-                    setActiveWeekId(block.weeks[0].id);
-                }
-                setView('EDITOR');
-                setExpandedDays({});
-            };
-            
-            const handleCreateBlock = () => {
-                const newWeekId = generateId();
-                const newBlock = {
-                    id: generateId(), 
-                    name: 'بلوك جديد', 
-                    weeks:[{ id: newWeekId, name: 'الأسبوع 1', days: [] }]
-                };
-                setBlocks([...blocks, newBlock]);
-                setActiveBlockId(newBlock.id);
-                setActiveWeekId(newWeekId);
-                setView('EDITOR');
-                setExpandedDays({});
-            };
-
-            const handleAddWeek = () => {
-                if(!activeBlock) return;
-                const newWeekId = generateId();
-                const newWeeks = [...activeBlock.weeks, { id: newWeekId, name: '', days: [] }].map((w, index) => ({
-                    ...w,
-                    name: `الأسبوع ${index + 1}`
-                }));
-                
-                setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, weeks: newWeeks} : b));
-                setActiveWeekId(newWeekId);
-                setExpandedDays({});
-            };
-
-            const copyPreviousWeek = () => {
-                if(!activeBlock || !activeWeek) return;
-                const currentIndex = activeBlock.weeks.findIndex(w => w.id === activeWeek.id);
-                if(currentIndex <= 0) return; 
-                
-                const prevWeek = activeBlock.weeks[currentIndex - 1];
-                const copiedDays = prevWeek.days.map(d => ({
-                    ...d,
-                    id: generateId(),
-                    exercises: d.exercises.map(ex => ({...ex, id: generateId()}))
-                }));
-
-                const updatedWeeks = activeBlock.weeks.map(w => w.id === activeWeek.id ? {...w, days: copiedDays} : w);
-                setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, weeks: updatedWeeks} : b));
-            };
-
-            const handleDeleteWeek = () => {
-                if(!activeBlock || activeBlock.weeks.length <= 1) return;
-                
-                const deletedIndex = activeBlock.weeks.findIndex(w => w.id === activeWeekId);
-                const updatedWeeks = activeBlock.weeks
-                    .filter(w => w.id !== activeWeekId)
-                    .map((w, index) => ({ ...w, name: `الأسبوع ${index + 1}` }));
-                
-                setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, weeks: updatedWeeks} : b));
-                const nextActiveIndex = Math.max(0, deletedIndex - 1);
-                setActiveWeekId(updatedWeeks[nextActiveIndex].id);
+            const toggleCheck = (id) => {
+                setCheckedItems(prev => ({ ...prev, [id]: !prev[id] }));
             };
 
             return (
-                <div className="h-full w-full relative">
-                    <ThemeMenu current={theme} onChange={setTheme} />
+                <div className="max-w-4xl mx-auto p-4 md:p-8 pt-20">
+                    <ThemeMenu currentTheme={theme} setTheme={setTheme} />
                     
-                    {sharingBlock && <ShareModal block={sharingBlock} onClose={() => setSharingBlock(null)} />}
-                    {showImport && <ImportModal onImport={handleImportBlock} onClose={() => setShowImport(false)} />}
-                    {showMaxesModal && <MaxesModal maxes={maxes} onClose={() => setShowMaxesModal(false)} onSave={handleSaveMaxes} />}
+                    <header className="text-center mb-12">
+                        <h1 className="font-lalezar text-6xl text-theme-text glow-text mb-2">جدول التغذية</h1>
+                        <p className="font-orbitron text-theme-accent tracking-[0.3em] text-sm uppercase">PowerEra Cyber-Diet System v1.0</p>
+                    </header>
 
-                    {view === 'LIST' && (
-                        <MainView 
-                            blocks={blocks}
-                            onCreate={handleCreateBlock}
-                            onEdit={openEditor}
-                            onDelete={(id) => setBlocks(blocks.filter(b => b.id !== id))}
-                            onShare={(block) => setSharingBlock(block)}
-                            onImportOpen={() => setShowImport(true)}
-                            onMaxesOpen={() => setShowMaxesModal(true)}
-                        />
-                    )}
-
-                    {view === 'EDITOR' && activeBlock && activeWeek && (
-                        <div className="h-full flex flex-col bg-theme-bg">
-                            <div className="p-4 border-b border-theme-dim flex items-center gap-4 bg-theme-bg z-20 sticky top-0">
-                                <button onClick={() => setView('LIST')} className="text-theme-dim hover:text-theme-text rotate-180">
-                                    <IconBack />
-                                </button>
-                                <input 
-                                    value={activeBlock.name}
-                                    onChange={(e) => setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, name: e.target.value} : b))}
-                                    className="bg-transparent font-arabic font-bold text-2xl text-theme-text w-full focus:text-theme-accent outline-none placeholder-theme-dim"
-                                    placeholder="اسم البلوك"
-                                />
-                            </div>
-
-                            <div className="flex items-center overflow-x-auto no-scrollbar border-b border-theme-dim bg-black/20">
-                                {activeBlock.weeks.map((w) => (
-                                    <button
-                                        key={w.id}
-                                        onClick={() => setActiveWeekId(w.id)}
-                                        className={`px-6 py-3 whitespace-nowrap font-arabic font-bold transition-all border-b-2 ${activeWeekId === w.id ? 'border-theme-accent text-theme-accent bg-theme-accent/5' : 'border-transparent text-theme-dim hover:text-theme-text hover:bg-white/5'}`}
-                                    >
-                                        {w.name}
-                                    </button>
-                                ))}
-                                <button 
-                                    onClick={handleAddWeek} 
-                                    className="px-4 py-3 text-theme-dim hover:text-theme-accent font-bold"
-                                    title="إضافة أسبوع جديد"
-                                >
-                                    + إضافة
-                                </button>
-                            </div>
-
-                            <div className="flex-1 overflow-y-auto no-scrollbar p-4 relative">
-                                <div className="flex justify-between items-center mb-6">
-                                    <h3 className="font-arabic text-theme-dim text-sm font-bold border border-theme-dim/50 px-2 py-1 rounded">عرض: {activeWeek.name}</h3>
-                                    <button onClick={handleDeleteWeek} className="text-theme-dim hover:text-red-500 flex items-center gap-1 text-xs">
-                                        <IconTrash size={14}/> حذف الأسبوع
-                                    </button>
-                                </div>
-
-                                {activeWeek.days.length === 0 && activeBlock.weeks.findIndex(w => w.id === activeWeek.id) > 0 && (
-                                    <button 
-                                        onClick={copyPreviousWeek}
-                                        className="w-full mb-6 py-4 border-2 border-dashed border-theme-accent text-theme-accent font-arabic font-bold hover:bg-theme-accent/10 transition-colors flex flex-col items-center justify-center gap-2 box-glow"
-                                    >
-                                        <IconCopy size={24} />
-                                        <span>نسخ تمارين الأسبوع السابق</span>
-                                        <span className="text-xs font-mono opacity-70">لتوفير الوقت وتعديل الأوزان فقط</span>
-                                    </button>
-                                )}
-
-                                {activeWeek.days.map(day => (
-                                    <DayAccordion 
-                                        key={day.id} day={day}
-                                        isExpanded={!!expandedDays[day.id]} 
-                                        onToggle={() => setExpandedDays(prev => ({...prev, [day.id]: !prev[day.id]}))}
-                                        onDeleteDay={() => {
-                                            const updatedWeeks = activeBlock.weeks.map(w => w.id === activeWeek.id ? {...w, days: w.days.filter(d => d.id !== day.id)} : w);
-                                            setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, weeks: updatedWeeks} : b));
-                                        }}
-                                        onUpdate={(updatedDay) => {
-                                            const updatedWeeks = activeBlock.weeks.map(w => w.id === activeWeek.id ? {...w, days: w.days.map(d => d.id === updatedDay.id ? updatedDay : d)} : w);
-                                            setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, weeks: updatedWeeks} : b));
-                                        }}
-                                        uniqueNames={uniqueExerciseNames}
-                                        maxes={maxes}
-                                    />
-                                ))}
-
-                                <button 
-                                    onClick={() => {
-                                        const nextDayNum = activeWeek.days.length + 1;
-                                        const newDayId = generateId();
-                                        const updatedWeeks = activeBlock.weeks.map(w => w.id === activeWeek.id ? {...w, days: [...w.days, {id: newDayId, name: `اليوم ${nextDayNum}`, exercises: []}]} : w);
-                                        setBlocks(blocks.map(b => b.id === activeBlockId ? {...b, weeks: updatedWeeks} : b));
-                                        setExpandedDays(prev => ({...prev, [newDayId]: true}));
-                                    }}
-                                    className="w-full py-4 border border-dashed border-theme-dim text-theme-dim hover:border-theme-accent hover:text-theme-accent font-arabic font-bold mt-2 transition-colors"
-                                >
-                                    + إضافة يوم جديد
-                                </button>
-                                <div className="h-20"></div>
-                            </div>
-                        </div>
-                    )}
+                    <main>
+                        {MEAL_DATA.map(week => (
+                            <WeekCard 
+                                key={week.id} 
+                                weekData={week} 
+                                checkedItems={checkedItems} 
+                                toggleCheck={toggleCheck} 
+                            />
+                        ))}
+                    </main>
+                    
+                    <footer className="text-center mt-12 pb-8 border-t border-theme-dim pt-4">
+                        <p className="font-vt323 text-theme-dim text-xl">> SYSTEM ONLINE_</p>
+                    </footer>
                 </div>
             );
         };
